@@ -1,23 +1,20 @@
 package com.week3hackthon.demo;
 
 
-import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Map;
 
 @SpringBootTest
 class DemoApplicationTests {
 
     @Autowired
-    private DataDAO dataDAO;
+    private DataRepository dataRepository;
 
     @Test
     public void findDemoByIdTest() {
 
-        DataEntity dataEntity = dataDAO.findDataById("California");
+        DataEntity dataEntity = dataRepository.findDataById("California");
 
         if (dataEntity!=null){
             System.out.println("Success");
