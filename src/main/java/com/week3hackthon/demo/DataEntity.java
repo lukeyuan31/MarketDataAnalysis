@@ -12,15 +12,11 @@ import java.util.PrimitiveIterator;
 
 @Document(collection="stock_price")
 public class DataEntity implements Serializable {
-    @Id
     //private Long id;
     @Field("Id")
     private String id;
     @Field("Date")
     private String date;
-
-
-
     @Field("Open")
     private String open;
     @Field("High")

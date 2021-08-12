@@ -6,4 +6,6 @@ import java.util.List;
 public interface DataRepository {
     DataEntity findDataById(String name);
  //   List<Entity> findListByState(String state);
+    List<DataEntity> getAllByCompanyName(String name);
+    List<DataEntity> getTopTenVolume();
 }
