@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.swing.text.Document;
 import javax.xml.crypto.Data;
 import java.util.List;
 
@@ -25,14 +26,15 @@ public class DataService implements DataRepository {
         return dataEntity;
     }
     //-------Get the price data for one company by name-----
+    //-------Can also set up start date and end date
     @Override
-    public List<DataEntity> getAllByCompanyName(String name){
-        Query query = new Query(Criteria.where("Name").is(name));
+    public List<DataEntity> getAllByCompanyName(String name,String startDate,String endDate){
+        Query query = new Query(Criteria.where("Name").is(name).and("Date").gte(startDate).lt(endDate));
         query.with(Sort.by("Date").descending());
         List<DataEntity> list= mongoTemplate.find(query,DataEntity.class);
         return list;
     }
-    //-------Get the top 10 trade volume companies
+    //-------Get the top 10 trade volume companies-----------
     @Override
     public List<DataEntity> getTopTenVolume(){
         Aggregation aggregation=Aggregation.newAggregation(
@@ -48,6 +50,22 @@ public class DataService implements DataRepository {
         List<DataEntity> list=aggregationResults.getMappedResults();
         //System.out.println(list.get(1).toString());
         return list.subList(0,10);
+    }
+
+    @Override
+    public DataEntity aggStocks(String name, String startDate, String endDate) {
+        Query query = new Query(Criteria.where("Name").is(name).and("Date").gte(startDate).lt(endDate));
+        query.with(Sort.by("High").descending()).limit(1);
+        DataEntity dataEntity=mongoTemplate.findOne(query,DataEntity.class);
+        return dataEntity;
+    }
+
+    @Override
+    public List<DataEntity> queryStocks(Double maxClose, Double minClose,String startDate,String endDate){
+        Query query=new Query(Criteria.where("Close").gte(minClose).lt(maxClose)
+                .and("Date").gte(startDate).lt(endDate));
+        List<DataEntity> dataEntities=mongoTemplate.find(query,DataEntity.class);
+        return dataEntities;
     }
 
 

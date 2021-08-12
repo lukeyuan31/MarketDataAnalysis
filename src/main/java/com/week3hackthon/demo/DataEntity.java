@@ -13,8 +13,8 @@ import java.util.PrimitiveIterator;
 @Document(collection="stock_price")
 public class DataEntity implements Serializable {
     //private Long id;
-    @Field("Id")
-    private String id;
+//    @Field("Id")
+//    private String id;
     @Field("Date")
     private String date;
     @Field("Open")
@@ -23,17 +23,28 @@ public class DataEntity implements Serializable {
     private String high;
     @Field("Low")
     private String low;
+    @Field("Close")
+    private String close;
     @Field("Volume")
     private String volume;
     @Field("Name")
     private String name;
 
-    public String getId() {
-        return id;
+//    public String getId() {
+//        return id;
+//    }
+//
+//    public void setId(String id) {
+//        this.id = id;
+//    }
+
+
+    public String getClose() {
+        return close;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setClose(String close) {
+        this.close = close;
     }
 
     public String getDate() {
@@ -87,7 +98,7 @@ public class DataEntity implements Serializable {
     @Override
     public String toString() {
         return "DataEntity{" +
-                "id='" + id + '\'' +
+                /*"id='" + id + '\'' +*/
                 ", date='" + date + '\'' +
                 ", open='" + open + '\'' +
                 ", high='" + high + '\'' +

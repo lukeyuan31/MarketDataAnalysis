@@ -23,12 +23,22 @@ public class DataController {
     }
 
     @GetMapping(path = "{companyName}")
-    public List<DataEntity> getAllByCompanyName(@PathVariable("companyName") String name){
-        return dataService.getAllByCompanyName(name);
+    public List<DataEntity> getAllByCompanyName(@PathVariable("companyName") String name,String startDate,String endDate){
+        return dataService.getAllByCompanyName(name,startDate,endDate);
     }
 
     @GetMapping(path = "topVolume")
     public List<DataEntity> getTotalVolumeofCompanies(){
         return dataService.getTopTenVolume();
+    }
+
+    @GetMapping(path = "max")
+    public DataEntity getOHLCagg(String name,String startDate,String endDate){
+        return dataService.aggStocks(name,startDate,endDate);
+    }
+
+    @GetMapping(path = "test")
+    public List<DataEntity> queryStock(Double maxClose,Double minClose,String startDate,String endDate){
+        return dataService.queryStocks(maxClose,minClose,startDate,endDate);
     }
 }
