@@ -53,6 +53,21 @@ public class DataService implements DataRepository {
     }
 
     @Override
+    public List<TopVolumeEntity> getTenVolume(){
+        Aggregation aggregation=Aggregation.newAggregation(
+                DataEntity.class,
+                Aggregation.group("Name").sum("Volume").as("totalVolume")
+                .last("Name").as("name"),
+                Aggregation.project("totalVolume","name"),
+                Aggregation.sort(Sort.Direction.DESC,"totalVolume")
+        );
+        AggregationResults<TopVolumeEntity> aggregationResults=mongoTemplate.aggregate(aggregation,"stock_price", TopVolumeEntity.class);
+        List<TopVolumeEntity> list=aggregationResults.getMappedResults();
+        return list.subList(0,10);
+
+    }
+
+    @Override
     public DataEntity aggStocks(String name, String startDate, String endDate) {
         Query query = new Query(Criteria.where("Name").is(name).and("Date").gte(startDate).lt(endDate));
         query.with(Sort.by("High").descending()).limit(1);
