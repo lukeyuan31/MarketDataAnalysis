@@ -10,4 +10,5 @@ public interface DataRepository {
     List<DataEntity> getTopTenVolume();
     DataEntity aggStocks(String name,String startDate, String endDate);
     List<DataEntity> queryStocks(Double maxClose, Double minClose, String startDate, String endDate);
+    List<TopVolumeEntity> getTenVolume();
 }

@@ -28,8 +28,8 @@ public class DataController {
     }
 
     @GetMapping(path = "topVolume")
-    public List<DataEntity> getTotalVolumeofCompanies(){
-        return dataService.getTopTenVolume();
+    public List<TopVolumeEntity> getTotalVolumeofCompanies(){
+        return dataService.getTenVolume();
     }
 
     @GetMapping(path = "max")
