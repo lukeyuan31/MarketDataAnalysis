@@ -43,5 +43,12 @@ public class StockController {
                                            @RequestParam(name="endDate",defaultValue = ENDDATESTR)String endDate){
         return stockRepository.sortStocks(Desc,n,type,startDate,endDate);
     }
+    @GetMapping("/aggStocks")
+    public List<OHLCResult2> aggStock(@RequestParam(name = "name") String name,
+                                           @RequestParam(name = "by") int by,
+                                           @RequestParam(name="startDate",defaultValue = STARTDATESTR)String startDate,
+                                           @RequestParam(name="endDate",defaultValue = ENDDATESTR)String endDate) throws ParseException {
+        return stockRepository.aggStock(name,startDate,endDate,by);
+    }
 
 }

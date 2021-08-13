@@ -12,6 +12,8 @@ import javax.annotation.Resource;
 import javax.xml.crypto.Data;
 import java.awt.*;
 import java.security.Key;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -128,5 +130,107 @@ public class StockService implements StockRepository {
 //        AggregationResults<SortStockEntity> aggregationResults = mongoTemplate.aggregate(aggregation,StockDateEntity.class,SortStockEntity.class);
 //        return aggregationResults.getMappedResults();
         return stockDateEntityList;
+    }
+
+    @Override
+    public List<OHLCResult2> aggStock(String name, String startDate, String endDate, int by) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Query query = new Query(Criteria.where("Date").lte(endDate).gte(startDate).and("Name").is(name));
+        List<StockDateEntity> stockDateEntities = mongoTemplate.find(query, StockDateEntity.class);
+        List<StockDateEntityPO>result = stockDateEntities.stream().map(t->{
+            Date date=new Date();
+            try {
+                date = simpleDateFormat.parse(t.getDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            StockDateEntityPO po = new StockDateEntityPO(date);
+            po.setName(t.getName());
+            po.setOpen(t.getOpen());
+            po.setVolume(t.getVolume());
+            return po;
+
+        }).collect(Collectors.toList());
+        List<OHLCResult2> result2 = new ArrayList<>();
+        switch (by){
+            case 0:
+                         result2 = result.stream().collect(Collectors.groupingBy(StockDateEntityPO::getWeek))
+                        .entrySet().stream().map(entry->{
+                            Integer key = entry.getKey();
+                            List<StockDateEntityPO>value = entry.getValue();
+                            OptionalDouble openMax = value.stream().mapToDouble(StockDateEntityPO::getOpen).max();
+                            OptionalDouble openMin = value.stream().mapToDouble(StockDateEntityPO::getOpen).min();
+                            OptionalDouble openAvg = value.stream().mapToDouble(StockDateEntityPO::getOpen).average();
+                            OptionalDouble volumeMax = value.stream().mapToDouble(StockDateEntityPO::getVolume).max();
+                            OptionalDouble volumeMin = value.stream().mapToDouble(StockDateEntityPO::getVolume).min();
+                            OptionalDouble volumeAvg = value.stream().mapToDouble(StockDateEntityPO::getVolume).average();
+                            OHLCResult2 ohlcResult2 = new OHLCResult2();
+                            ohlcResult2.setName(name);
+                            OHLCSub ohlcSub = new OHLCSub();
+                            ohlcSub.setOpenAvg(openAvg.getAsDouble());
+                            ohlcSub.setOpenMAx(openMax.getAsDouble());
+                            ohlcSub.setOpenMin(openMin.getAsDouble());
+                            ohlcSub.setVolumeAvg((int)volumeAvg.getAsDouble());
+                            ohlcSub.setVolumeMax((int)volumeMax.getAsDouble());
+                            ohlcSub.setVolumeMin((int)volumeMin.getAsDouble());
+                            ohlcResult2.setOhlcSub(ohlcSub);
+                            ohlcResult2.setWeek(key);
+                            return ohlcResult2;
+                        }).collect(Collectors.toList());
+                break;
+            case 1:
+                        result2 = result.stream().collect(Collectors.groupingBy(StockDateEntityPO::getMonth))
+                        .entrySet().stream().map(entry->{
+                            Integer key = entry.getKey();
+                            List<StockDateEntityPO>value = entry.getValue();
+                            OptionalDouble openMax = value.stream().mapToDouble(StockDateEntityPO::getOpen).max();
+                            OptionalDouble openMin = value.stream().mapToDouble(StockDateEntityPO::getOpen).min();
+                            OptionalDouble openAvg = value.stream().mapToDouble(StockDateEntityPO::getOpen).average();
+                            OptionalDouble volumeMax = value.stream().mapToDouble(StockDateEntityPO::getVolume).max();
+                            OptionalDouble volumeMin = value.stream().mapToDouble(StockDateEntityPO::getVolume).min();
+                            OptionalDouble volumeAvg = value.stream().mapToDouble(StockDateEntityPO::getVolume).average();
+                            OHLCResult2 ohlcResult2 = new OHLCResult2();
+                            ohlcResult2.setName(name);
+                            OHLCSub ohlcSub = new OHLCSub();
+                            ohlcSub.setOpenAvg(openAvg.getAsDouble());
+                            ohlcSub.setOpenMAx(openMax.getAsDouble());
+                            ohlcSub.setOpenMin(openMin.getAsDouble());
+                            ohlcSub.setVolumeAvg((int)volumeAvg.getAsDouble());
+                            ohlcSub.setVolumeMax((int)volumeMax.getAsDouble());
+                            ohlcSub.setVolumeMin((int)volumeMin.getAsDouble());
+                            ohlcResult2.setOhlcSub(ohlcSub);
+                            ohlcResult2.setMonth(key);
+                            return ohlcResult2;
+                        }).collect(Collectors.toList());
+                break;
+            case 2:
+                result2 = result.stream().collect(Collectors.groupingBy(StockDateEntityPO::getYear))
+                        .entrySet().stream().map(entry->{
+                            Integer key = entry.getKey();
+                            List<StockDateEntityPO>value = entry.getValue();
+                            OptionalDouble openMax = value.stream().mapToDouble(StockDateEntityPO::getOpen).max();
+                            OptionalDouble openMin = value.stream().mapToDouble(StockDateEntityPO::getOpen).min();
+                            OptionalDouble openAvg = value.stream().mapToDouble(StockDateEntityPO::getOpen).average();
+                            OptionalDouble volumeMax = value.stream().mapToDouble(StockDateEntityPO::getVolume).max();
+                            OptionalDouble volumeMin = value.stream().mapToDouble(StockDateEntityPO::getVolume).min();
+                            OptionalDouble volumeAvg = value.stream().mapToDouble(StockDateEntityPO::getVolume).average();
+                            OHLCResult2 ohlcResult2 = new OHLCResult2();
+                            ohlcResult2.setName(name);
+                            OHLCSub ohlcSub = new OHLCSub();
+                            ohlcSub.setOpenAvg(openAvg.getAsDouble());
+                            ohlcSub.setOpenMAx(openMax.getAsDouble());
+                            ohlcSub.setOpenMin(openMin.getAsDouble());
+                            ohlcSub.setVolumeAvg((int)volumeAvg.getAsDouble());
+                            ohlcSub.setVolumeMax((int)volumeMax.getAsDouble());
+                            ohlcSub.setVolumeMin((int)volumeMin.getAsDouble());
+                            ohlcResult2.setOhlcSub(ohlcSub);
+                            ohlcResult2.setYear(key);
+                            return ohlcResult2;
+                        }).collect(Collectors.toList());
+                break;
+
+
+        }
+        return result2;
     }
 }
