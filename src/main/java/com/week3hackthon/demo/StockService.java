@@ -1,26 +1,16 @@
 package com.week3hackthon.demo;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.xml.crypto.Data;
-import java.awt.*;
-import java.security.Key;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import static com.week3hackthon.demo.Constants.ENDDATESTR;
-import static com.week3hackthon.demo.Constants.STARTDATESTR;
 
 /**
  * @Classname StockService
@@ -29,13 +19,13 @@ import static com.week3hackthon.demo.Constants.STARTDATESTR;
  * @Created by rou
  */
 
-
 @Service
 public class StockService implements StockRepository {
     @Resource
     private MongoTemplate mongoTemplate;
     @Override
     public List<StockDateEntity> sortStocks(int desc, int n, int type, String startDate, String endDate) {
+
         Query query = new Query(Criteria.where("Date").lte(endDate).gte(startDate));
         String t ="get"+ OHLC.values()[type].name();
         List<StockDateEntity> stockDateEntities = mongoTemplate.find(query, StockDateEntity.class);

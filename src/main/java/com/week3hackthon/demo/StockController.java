@@ -1,15 +1,10 @@
 package com.week3hackthon.demo;
 
+import com.week3hackthon.demo.myException.ParamOutOfRangeException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import static com.week3hackthon.demo.Constants.ENDDATESTR;
@@ -41,13 +36,16 @@ public class StockController {
                                            @RequestParam(name="type")int type,
                                            @RequestParam(name="startDate",defaultValue = STARTDATESTR)String startDate,
                                            @RequestParam(name="endDate",defaultValue = ENDDATESTR)String endDate){
+        if (Desc>1||Desc<0) throw new ParamOutOfRangeException("desc","out of range");
+        if (type>4||type<0) throw new ParamOutOfRangeException("type","out of range");
         return stockRepository.sortStocks(Desc,n,type,startDate,endDate);
     }
-    @GetMapping("/aggStocks")
-    public List<OHLCResult2> aggStock(@RequestParam(name = "name") String name,
+    @GetMapping(path = "/aggStocks/{companyName}")
+    public List<OHLCResult2> aggStock(@PathVariable("companyName") String name,
                                            @RequestParam(name = "by") int by,
                                            @RequestParam(name="startDate",defaultValue = STARTDATESTR)String startDate,
                                            @RequestParam(name="endDate",defaultValue = ENDDATESTR)String endDate) throws ParseException {
+        if (by>4||by<0) throw new ParamOutOfRangeException("by","out of range");
         return stockRepository.aggStock(name,startDate,endDate,by);
     }
 
