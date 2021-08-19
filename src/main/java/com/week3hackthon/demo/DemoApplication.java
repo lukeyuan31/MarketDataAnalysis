@@ -7,6 +7,7 @@ import java.beans.JavaBean;
 
 @SpringBootApplication
 public class DemoApplication {
+    //test jenkins
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
