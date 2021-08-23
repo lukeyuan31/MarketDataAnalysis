@@ -2,6 +2,11 @@ FROM mongo
 
 EXPOSE 27017
 
-COPY mongodbsetup.js /docker-entrypoint-initdb.d/
+ENV WORKSPACE /usr/local/work
+ENV AUTO_RUN_DIR /docker-entrypoint-initdb.d
+ENV INSTALL_MONGO_SHELL setup.sh
+RUN mkdir -p$WORKSPACE
+COPY ./data/*.csv $WORKSPACE
+COPY ./$INSTALL_MONGO_SHELL $AUTO_RUN_DIR/
+RUN CHMOD a+x $AUTO_RUN_DIR/$INSTALL_MONGO_SHELL
 
-RUN chmod 777 /docker-entrypoint-initdb.d/mongodbsetup.js
