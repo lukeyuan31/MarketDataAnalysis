@@ -21,7 +21,7 @@ pipeline {
       steps {
         unstash 'jar'
         sh 'docker-compose down'
-        sh 'docker build -f Dockerfile-mongo -t mongo .'
+        sh 'docker build -f Dockerfile-mongodb -t mongo .'
         sh 'docker build -f Dockerfile-app -t app .'
         sh 'docker-compose up -d'
       }
