@@ -1,17 +1,28 @@
 pipeline {
-  agent {
-    docker {
-      image '\'maven:3.8.1-adoptopenjdk-11\''
-      args '-p 8081:8080'
-    }
-
-  }
+  agent none
   stages {
     stage('build') {
+      agent {
+        docker {
+          image 'maven:3.8.1-adoptopenjdk-11'
+        }
+
+      }
       steps {
+        sh '''mvn -DskipTests -Pprod clean package
+'''
+        stash(name: 'jar', includes: 'target/*.jar')
+        archiveArtifacts 'target/*.jar'
+      }
+    }
+
+    stage('deploy') {
+      agent any
+      steps {
+        unstash 'jar'
         sh 'docker-compose down'
-        sh 'docker build -f Dockerfile-mongodb -t MarketDataAnalysis/mongodb .'
-        sh 'docker build -f Dockerfile-app -t MarketDataAnalysis/app .'
+        sh 'docker build -f Dockerfile-mongodb -t mongo .'
+        sh 'docker build -f Dockerfile-app -t app .'
         sh 'docker-compose up -d'
       }
     }
