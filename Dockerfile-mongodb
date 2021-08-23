@@ -1,0 +1,7 @@
+FROM mongo
+
+EXPOSE 27017
+
+COPY mongodbsetup.js /docker-entrypoint-initdb.d/
+
+RUN chmod 777 /docker-entrypoint-initdb.d/mongodbsetup.js
