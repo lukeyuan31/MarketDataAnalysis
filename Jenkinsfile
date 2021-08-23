@@ -1,8 +1,7 @@
 pipeline {
   agent {
     docker {
-      image '\'maven:3.8.1-adoptopenjdk-11\''
-      args '-p 8081:8080'
+      image 'maven:3.8.1-adoptopenjdk-11'
     }
 
   }
