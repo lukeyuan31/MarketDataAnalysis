@@ -9,12 +9,21 @@ pipeline {
 
       }
       steps {
-        sh '''sudo /usr/local/bin/docker-compose down
+        sh '''mvn -DskipTests -Pprod clean package
 '''
-        sh 'docker build -f Dockerfile-mongodb -t MarketDataAnalysis/mongodb .'
-        sh 'docker build -f Dockerfile-app -t MarketDataAnalysis/app .'
-        sh '''sudo /usr/local/bin/docker-compose up
-'''
+        stash(name: 'jar', includes: 'target/*.jar')
+        archiveArtifacts 'target/*.jar'
+      }
+    }
+
+    stage('deploy') {
+      agent any
+      steps {
+        unstash 'jar'
+        sh 'docker-compose down'
+        sh 'docker build -f Dockerfile-mongo -t mongo .'
+        sh 'docker build -f Dockerfile-app -t app .'
+        sh 'docker-compose up -d'
       }
     }
 
