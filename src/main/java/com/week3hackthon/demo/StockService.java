@@ -45,6 +45,7 @@ public class StockService implements StockRepository {
                     stockDateEntity.setHigh(high.getAsDouble());
                     stockDateEntity.setLow(low.getAsDouble());
                     stockDateEntity.setVolume((int)volume.getAsDouble());
+                    System.out.println(volume);
                     return stockDateEntity;
                 }).collect(Collectors.toList());
         //result.stream().sorted(Comparator.comparing(StockDateEntity::getVolume)).limit(n);
