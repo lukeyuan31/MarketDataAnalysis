@@ -1,7 +1,7 @@
 #!/bin/bash
 mongo<<EOF
-use all_stocks
+use all_stock
 db.createCollection("stock_price")
 EOF
 
-mongoimport --db all_stocks --collection stock_price --headerline --file $WORKSPACE/stocks.csv
+mongoimport --db all_stock --collection stock_price --type csv --headerline --file $WORKSPACE/stocks.csv
