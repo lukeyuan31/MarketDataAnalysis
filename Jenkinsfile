@@ -6,10 +6,10 @@ pipeline {
         docker {
           image 'maven:3.8.1-adoptopenjdk-11'
         }
-        post{
-            always{
-                junit 'target/surefire-reports/*.xml'
-            }
+      }
+      post{
+        always{
+            junit 'target/surefire-reports/*.xml'
         }
       }
       steps {
