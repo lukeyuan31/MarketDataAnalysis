@@ -1,6 +1,17 @@
 pipeline {
   agent none
   stages {
+    stage('check and test') {
+      agent {
+        docker {
+          image 'maven:3.8.1-adoptopenjdk-11'
+        }
+
+      }
+      steps {
+        sh 'mvn test'
+      }
+    }
     stage('build') {
       agent {
         docker {
@@ -9,13 +20,11 @@ pipeline {
 
       }
       steps {
-        sh '''mvn -DskipTests -Pprod clean package
-'''
+        sh 'mvn -DskipTests -Pprod clean package'
         stash(name: 'jar', includes: 'target/*.jar')
         archiveArtifacts 'target/*.jar'
       }
     }
-
     stage('deploy') {
       agent any
       steps {
