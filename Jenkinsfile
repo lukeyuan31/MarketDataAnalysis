@@ -7,11 +7,6 @@ pipeline {
           image 'maven:3.8.1-adoptopenjdk-11'
         }
       }
-      post{
-        always{
-            junit 'target/surefire-reports/*.xml'
-        }
-      }
       steps {
         sh 'mvn -DskipTests -Pprod clean package'
         stash(name: 'jar', includes: 'target/*.jar')
