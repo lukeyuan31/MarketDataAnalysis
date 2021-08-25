@@ -1,5 +1,7 @@
-package com.week3hackthon.demo;
+package com.week3hackthon.demo.service;
 
+import com.week3hackthon.demo.repository.StockRepository;
+import com.week3hackthon.demo.entity.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;

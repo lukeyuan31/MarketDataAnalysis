@@ -1,6 +1,8 @@
 package com.week3hackthon.demo;
 
 
+import com.week3hackthon.demo.entity.DataEntity;
+import com.week3hackthon.demo.repository.DataRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

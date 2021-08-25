@@ -1,6 +1,8 @@
-package com.week3hackthon.demo;
+package com.week3hackthon.demo.repository;
 
-import javax.swing.text.html.parser.Entity;
+import com.week3hackthon.demo.entity.DataEntity;
+import com.week3hackthon.demo.entity.TopVolumeEntity;
+
 import java.util.List;
 
 public interface DataRepository {
