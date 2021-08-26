@@ -1,4 +1,4 @@
-package com.week3hackthon.demo;
+package com.week3hackthon.demo.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,29 +11,25 @@ import java.util.PrimitiveIterator;
 //MongoDB结构：database: sstore collection: testdb
 
 @Document(collection="stock_price")
-public class StockDateEntity implements Serializable {
-//    @Id
-//    //private Long id;
+public class DataEntity implements Serializable {
+    //private Long id;
 //    @Field("Id")
 //    private String id;
     @Field("Date")
     private String date;
-
-
-
     @Field("Open")
-    private Double open;
+    private String open;
     @Field("High")
-    private Double high;
+    private String high;
     @Field("Low")
-    private Double low;
+    private String low;
     @Field("Close")
-    private Double close;
+    private String close;
     @Field("Volume")
-    private Integer volume;
+    private String volume;
     @Field("Name")
     private String name;
-//
+
 //    public String getId() {
 //        return id;
 //    }
@@ -41,6 +37,15 @@ public class StockDateEntity implements Serializable {
 //    public void setId(String id) {
 //        this.id = id;
 //    }
+
+
+    public String getClose() {
+        return close;
+    }
+
+    public void setClose(String close) {
+        this.close = close;
+    }
 
     public String getDate() {
         return date;
@@ -50,43 +55,35 @@ public class StockDateEntity implements Serializable {
         this.date = date;
     }
 
-    public Double getOpen() {
+    public String getOpen() {
         return open;
     }
 
-    public void setOpen(Double open) {
+    public void setOpen(String open) {
         this.open = open;
     }
 
-    public Double getHigh() {
+    public String getHigh() {
         return high;
     }
 
-    public void setHigh(Double high) {
+    public void setHigh(String high) {
         this.high = high;
     }
 
-    public Double getLow() {
+    public String getLow() {
         return low;
     }
 
-    public void setLow(Double low) {
+    public void setLow(String low) {
         this.low = low;
     }
 
-    public Double getClose() {
-        return close;
-    }
-
-    public void setClose(Double close) {
-        this.close = close;
-    }
-
-    public Integer getVolume() {
+    public String getVolume() {
         return volume;
     }
 
-    public void setVolume(Integer volume) {
+    public void setVolume(String volume) {
         this.volume = volume;
     }
 
@@ -101,7 +98,7 @@ public class StockDateEntity implements Serializable {
     @Override
     public String toString() {
         return "DataEntity{" +
-//                "id='" + id + '\'' +
+                /*"id='" + id + '\'' +*/
                 ", date='" + date + '\'' +
                 ", open='" + open + '\'' +
                 ", high='" + high + '\'' +

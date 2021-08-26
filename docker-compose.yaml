@@ -1,0 +1,26 @@
+version: '2.2'
+services:
+   mongo:
+     container_name: mongo
+     build:
+       context: .
+       dockerfile: Dockerfile-mongodb
+     image: mongo:latest
+     ports:
+       - "27017:27017"
+     restart: always
+     hostname: mongo
+     volumes:
+       - "/home/volumes/mongo:/data/db"
+       - "/etc/localtime:/etc/localtime"
+
+   market:
+     ports:
+       - "8081:8080"
+     container_name: market
+     build:
+       context: .
+       dockerfile: Dockerfile-app
+     image: market:latest
+     links:
+       - mongo:mongo

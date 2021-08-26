@@ -1,4 +1,4 @@
-package com.week3hackthon.demo;
+package com.week3hackthon.demo.entity;
 
 public class OHLCResult {
     private String name;

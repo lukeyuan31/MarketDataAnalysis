@@ -1,6 +1,9 @@
-package com.week3hackthon.demo;
+package com.week3hackthon.demo.service;
 
+import com.week3hackthon.demo.repository.StockRepository;
+import com.week3hackthon.demo.entity.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -45,6 +48,7 @@ public class StockService implements StockRepository {
                     stockDateEntity.setHigh(high.getAsDouble());
                     stockDateEntity.setLow(low.getAsDouble());
                     stockDateEntity.setVolume((int)volume.getAsDouble());
+                    System.out.println(volume);
                     return stockDateEntity;
                 }).collect(Collectors.toList());
         //result.stream().sorted(Comparator.comparing(StockDateEntity::getVolume)).limit(n);
@@ -145,9 +149,9 @@ public class StockService implements StockRepository {
         List<OHLCResult2> result2 = new ArrayList<>();
         switch (by){
             case 0:
-                         result2 = result.stream().collect(Collectors.groupingBy(StockDateEntityPO::getWeek))
+                         result2 = result.stream().collect(Collectors.groupingBy(o->o.getYear()+"_"+o.getMonth()+"_"+o.getWeek()))
                         .entrySet().stream().map(entry->{
-                            Integer key = entry.getKey();
+                            String key = entry.getKey();
                             List<StockDateEntityPO>value = entry.getValue();
                             OptionalDouble openMax = value.stream().mapToDouble(StockDateEntityPO::getOpen).max();
                             OptionalDouble openMin = value.stream().mapToDouble(StockDateEntityPO::getOpen).min();
@@ -165,14 +169,17 @@ public class StockService implements StockRepository {
                             ohlcSub.setVolumeMax((int)volumeMax.getAsDouble());
                             ohlcSub.setVolumeMin((int)volumeMin.getAsDouble());
                             ohlcResult2.setOhlcSub(ohlcSub);
-                            ohlcResult2.setWeek(key);
+                            String[] strkey = key.split("_");
+                            ohlcResult2.setWeek(Integer.parseInt(strkey[2]));
+                            ohlcResult2.setMonth(Integer.parseInt(strkey[1]));
+                            ohlcResult2.setYear(Integer.parseInt(strkey[0]));
                             return ohlcResult2;
-                        }).collect(Collectors.toList());
+                        }).sorted(Comparator.comparing(OHLCResult2::getYear).thenComparing(OHLCResult2::getMonth).thenComparing(OHLCResult2::getWeek)).collect(Collectors.toList());
                 break;
             case 1:
-                        result2 = result.stream().collect(Collectors.groupingBy(StockDateEntityPO::getMonth))
+                        result2 = result.stream().collect(Collectors.groupingBy(o->o.getYear()+"_"+o.getMonth()))
                         .entrySet().stream().map(entry->{
-                            Integer key = entry.getKey();
+                            String key = entry.getKey();
                             List<StockDateEntityPO>value = entry.getValue();
                             OptionalDouble openMax = value.stream().mapToDouble(StockDateEntityPO::getOpen).max();
                             OptionalDouble openMin = value.stream().mapToDouble(StockDateEntityPO::getOpen).min();
@@ -190,9 +197,11 @@ public class StockService implements StockRepository {
                             ohlcSub.setVolumeMax((int)volumeMax.getAsDouble());
                             ohlcSub.setVolumeMin((int)volumeMin.getAsDouble());
                             ohlcResult2.setOhlcSub(ohlcSub);
-                            ohlcResult2.setMonth(key);
+                            String[] strkey = key.split("_");
+                            ohlcResult2.setMonth(Integer.parseInt(strkey[1]));
+                            ohlcResult2.setYear(Integer.parseInt(strkey[0]));
                             return ohlcResult2;
-                        }).collect(Collectors.toList());
+                        }).sorted(Comparator.comparing(OHLCResult2::getYear).thenComparing(OHLCResult2::getMonth)).collect(Collectors.toList());
                 break;
             case 2:
                 result2 = result.stream().collect(Collectors.groupingBy(StockDateEntityPO::getYear))
@@ -217,7 +226,7 @@ public class StockService implements StockRepository {
                             ohlcResult2.setOhlcSub(ohlcSub);
                             ohlcResult2.setYear(key);
                             return ohlcResult2;
-                        }).collect(Collectors.toList());
+                        }).sorted(Comparator.comparing(OHLCResult2::getYear)).collect(Collectors.toList());
                 break;
 
 

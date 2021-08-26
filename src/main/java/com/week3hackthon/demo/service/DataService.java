@@ -1,17 +1,17 @@
-package com.week3hackthon.demo;
+package com.week3hackthon.demo.service;
 
+import com.week3hackthon.demo.entity.DataEntity;
+import com.week3hackthon.demo.repository.DataRepository;
+import com.week3hackthon.demo.entity.TopVolumeEntity;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.aggregation.GroupOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import javax.swing.text.Document;
-import javax.xml.crypto.Data;
 import java.util.List;
 
 @Component

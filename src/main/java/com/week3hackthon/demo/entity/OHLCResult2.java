@@ -1,7 +1,4 @@
-package com.week3hackthon.demo;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.week3hackthon.demo.entity;
 
 /**
  * @Classname OHLCResult2

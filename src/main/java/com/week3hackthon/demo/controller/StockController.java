@@ -1,5 +1,8 @@
-package com.week3hackthon.demo;
+package com.week3hackthon.demo.controller;
 
+import com.week3hackthon.demo.entity.OHLCResult2;
+import com.week3hackthon.demo.entity.StockDateEntity;
+import com.week3hackthon.demo.repository.StockRepository;
 import com.week3hackthon.demo.myException.ParamOutOfRangeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -7,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.util.List;
 
-import static com.week3hackthon.demo.Constants.ENDDATESTR;
-import static com.week3hackthon.demo.Constants.STARTDATESTR;
+import static com.week3hackthon.demo.constants.Constants.ENDDATESTR;
+import static com.week3hackthon.demo.constants.Constants.STARTDATESTR;
 
 
 /**
@@ -19,6 +22,7 @@ import static com.week3hackthon.demo.Constants.STARTDATESTR;
  */
 @RestController
 @RequestMapping(path = "api")
+@CrossOrigin
 public class StockController {
     @Autowired
     StockRepository stockRepository;
@@ -42,9 +46,9 @@ public class StockController {
     }
     @GetMapping(path = "/aggStocks/{companyName}")
     public List<OHLCResult2> aggStock(@PathVariable("companyName") String name,
-                                           @RequestParam(name = "by") int by,
-                                           @RequestParam(name="startDate",defaultValue = STARTDATESTR)String startDate,
-                                           @RequestParam(name="endDate",defaultValue = ENDDATESTR)String endDate) throws ParseException {
+                                      @RequestParam(name = "by") int by,
+                                      @RequestParam(name="startDate",defaultValue = STARTDATESTR)String startDate,
+                                      @RequestParam(name="endDate",defaultValue = ENDDATESTR)String endDate) throws ParseException {
         if (by>4||by<0) throw new ParamOutOfRangeException("by","out of range");
         return stockRepository.aggStock(name,startDate,endDate,by);
     }

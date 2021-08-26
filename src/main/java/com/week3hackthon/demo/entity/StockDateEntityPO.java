@@ -1,4 +1,4 @@
-package com.week3hackthon.demo;
+package com.week3hackthon.demo.entity;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -18,7 +18,7 @@ public class StockDateEntityPO {
     Integer year;
     Integer week;
 
-    StockDateEntityPO(Date startDate){
+    public StockDateEntityPO(Date startDate){
         this.StartDate = startDate;
         Calendar ca = Calendar.getInstance();
         ca.setTime(startDate);
