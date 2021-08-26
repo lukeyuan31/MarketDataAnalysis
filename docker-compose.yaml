@@ -10,9 +10,6 @@ services:
        - "27017:27017"
      restart: always
      hostname: mongo
-     volumes:
-       - "/home/volumes/mongo:/data/db"
-       - "/etc/localtime:/etc/localtime"
 
    market:
      ports:
