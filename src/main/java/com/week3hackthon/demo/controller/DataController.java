@@ -5,6 +5,7 @@ import com.week3hackthon.demo.service.DataService;
 import com.week3hackthon.demo.entity.TopVolumeEntity;
 import com.week3hackthon.demo.exception.InvalidDateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api")
+@CrossOrigin
 public class DataController {
     @Autowired
     DataService dataService;

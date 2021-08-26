@@ -22,6 +22,7 @@ import static com.week3hackthon.demo.constants.Constants.STARTDATESTR;
  */
 @RestController
 @RequestMapping(path = "api")
+@CrossOrigin
 public class StockController {
     @Autowired
     StockRepository stockRepository;
