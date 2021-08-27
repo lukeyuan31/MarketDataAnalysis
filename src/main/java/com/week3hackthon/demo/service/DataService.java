@@ -76,8 +76,8 @@ public class DataService implements DataRepository {
     }
 
     @Override
-    public List<DataEntity> queryStocks(Double maxClose, Double minClose,String startDate,String endDate){
-        Query query=new Query(Criteria.where("Close").gte(minClose).lt(maxClose)
+    public List<DataEntity> queryStocks(String name,Double maxClose, Double minClose,String startDate,String endDate){
+        Query query=new Query(Criteria.where("Name").is(name).and("Close").gte(minClose).lt(maxClose)
                 .and("Date").gte(startDate).lt(endDate));
         List<DataEntity> dataEntities=mongoTemplate.find(query,DataEntity.class);
         return dataEntities;

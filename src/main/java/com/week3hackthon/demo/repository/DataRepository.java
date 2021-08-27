@@ -11,6 +11,6 @@ public interface DataRepository {
     List<DataEntity> getAllByCompanyName(String name,String startDate,String endDate);
     List<DataEntity> getTopTenVolume();
     DataEntity aggStocks(String name,String startDate, String endDate);
-    List<DataEntity> queryStocks(Double maxClose, Double minClose, String startDate, String endDate);
+    List<DataEntity> queryStocks(String name,Double maxClose, Double minClose, String startDate, String endDate);
     List<TopVolumeEntity> getTenVolume();
 }

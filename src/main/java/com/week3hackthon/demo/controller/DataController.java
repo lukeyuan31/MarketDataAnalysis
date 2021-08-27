@@ -54,7 +54,7 @@ public class DataController {
     }
 
     @GetMapping(path = "filter")
-    public List<DataEntity> queryStock(Double maxClose,Double minClose,String startDate,String endDate){
-        return dataService.queryStocks(maxClose,minClose,startDate,endDate);
+    public List<DataEntity> queryStock(String name,Double maxClose,Double minClose,String startDate,String endDate){
+        return dataService.queryStocks(name,maxClose,minClose,startDate,endDate);
     }
 }
